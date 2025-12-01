@@ -55,45 +55,50 @@
             box-shadow: 0 0 10px rgba(59, 92, 157, 0.5);
         }
 
-        /* Morphing Blob Background */
-        .blob {
+        /* Grid Background */
+        .grid-bg {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: morph 8s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
             z-index: -1;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
         }
 
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--accent-blue);
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
+        /* Animated Gradient Mesh Background (Subtle) */
+        .gradient-mesh {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(at 0% 0%, rgba(59, 92, 157, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(125, 66, 149, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(138, 208, 167, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(59, 92, 157, 0.1) 0px, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradient-move 20s ease infinite;
+            z-index: -2;
+            opacity: 0.5;
         }
 
-        .blob-2 {
-            width: 500px;
-            height: 500px;
-            background: var(--accent-purple);
-            bottom: -250px;
-            left: -250px;
-            animation-delay: 2s;
-        }
-
-        @keyframes morph {
-
-            0%,
-            100% {
-                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-                transform: rotate(0deg);
+        @keyframes gradient-move {
+            0% {
+                background-position: 0% 50%;
             }
 
             50% {
-                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-                transform: rotate(180deg);
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
             }
         }
 
@@ -649,64 +654,216 @@
                 grid-column: span 1;
             }
         }
+
+        /* Responsive Utilities */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+
+        /* Hamburger Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1002;
+            padding: 10px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
+        /* Mobile Media Queries */
+        @media (max-width: 900px) {
+
+            .hero-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-content {
+                order: 1;
+            }
+
+            .hero-visual {
+                display: none;
+                /* Hide complex visual on mobile */
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem !important;
+            }
+
+            .hero-content div {
+                justify-content: center;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: white;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                z-index: 1001;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .step {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                text-align: left;
+            }
+
+            .step-number {
+                margin: 0;
+                min-width: 60px;
+            }
+
+            .contact-form {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
     </style>
 </head>
 
 <body>
-
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress"></div>
-
-    <!-- Header -->
     <header id="header">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <a href="#" class="logo" style="display: flex; align-items: center; text-decoration: none; gap: 12px;">
-                <img src="logo-png-clofy-removebg-preview.png" alt="Clofy Technologies" style="height: 50px;">
-                <span
-                    style="font-weight: 900; font-size: 1.8rem; letter-spacing: -1px; color: var(--text-main);">CLOFY</span>
-            </a>
-            <nav class="nav-links">
-                <a href="#services">Services</a>
-                <a href="#process">Process</a>
-                <a href="#work">Work</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#contact">Contact</a>
-            </nav>
+        <div class="container header-container"><a href="#" class="logo"
+                style="display: flex; align-items: center; text-decoration: none; gap: 12px;"><img
+                    src="logo-png-clofy-removebg-preview.png" alt="Clofy Technologies" style="height: 50px;"><span
+                    style="font-weight: 900; font-size: 1.8rem; letter-spacing: -1px; color: var(--text-main);">CLOFY</span></a><button
+                class="mobile-menu-btn" aria-label="Toggle Menu"><span></span><span></span><span></span></button>
+            <nav class="nav-links"><a href="#services">Services</a><a href="#process">Process</a><a
+                    href="#work">Work</a><a href="#pricing">Pricing</a><a href="#contact">Contact</a></nav>
         </div>
     </header>
-
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-bg">
-            <div class="blob blob-1"></div>
-            <div class="blob blob-2"></div>
+            <div class="grid-bg"></div>
+            <div class="gradient-mesh"></div>
         </div>
-        <canvas id="particles-canvas"></canvas>
-
-        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+        <div class="container hero-container">
             <div class="hero-content">
                 <h1>Building Digital Products from <span style="color: var(--accent-blue);">Concept</span> to <span
                         style="color: var(--accent-purple);">Scale</span></h1>
-                <p style="font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 2.5rem;">
-                    From ₹1,000 to ₹50L+ projects. Custom software, web apps, and SaaS solutions for startups and
-                    enterprises.
-                </p>
-                <div style="display: flex; gap: 20px;">
-                    <a href="#contact" class="btn btn-primary">Start Your Project</a>
-                    <a href="#work" class="btn btn-secondary">View Our Work</a>
-                </div>
+                <p style="font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 2.5rem;">From ₹1,
+                    000 to ₹50L+projects. Custom software,
+                    web apps,
+                    and SaaS solutions for startups and enterprises. </p>
+                <div style="display: flex; gap: 20px;"><a href="#contact" class="btn btn-primary">Start Your
+                        Project</a></div>
             </div>
-
             <div class="hero-visual" style="position: relative; height: 500px;">
                 <div class="floating-card" style="top: 5%; left: 5%; width: 220px; animation-delay: 0s;">
                     <div style="color: var(--accent-blue); font-weight: bold; margin-bottom: 12px; font-size: 1.1rem;">
-                        &lt;Code /&gt;</div>
+                        &lt;
+                        Code /&gt;
+                    </div>
                     <div
                         style="height: 10px; background: #E2E8F0; border-radius: 5px; margin-bottom: 10px; width: 85%;">
                     </div>
                     <div style="height: 10px; background: #E2E8F0; border-radius: 5px; width: 65%;"></div>
                 </div>
-
                 <div class="floating-card" style="top: 35%; right: 5%; width: 200px; animation-delay: 1.5s;">
                     <div
                         style="color: var(--accent-purple); font-weight: bold; margin-bottom: 12px; font-size: 1.1rem;">
@@ -722,16 +879,14 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="floating-card" style="bottom: 5%; left: 15%; width: 240px; animation-delay: 3s;">
-                    <div style="color: var(--accent-mint); font-weight: bold; margin-bottom: 12px; font-size: 1.1rem;">✓
-                        Deployment Ready</div>
+                    <div style="color: var(--accent-mint); font-weight: bold; margin-bottom: 12px; font-size: 1.1rem;">
+                        ✓ Deployment Ready</div>
                     <div style="font-size: 0.95rem; color: var(--text-secondary);">Build success: 99.9%</div>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Services Section (Sticky Stack Architecture) -->
     <section id="services" class="services-stack-wrapper">
         <div class="container">
@@ -742,15 +897,16 @@
                     We don't just write code. We architect digital ecosystems designed for scale.
                 </p>
             </div>
-
             <div class="services-stack-container">
                 <!-- Card 1 -->
                 <div class="service-stack-card" style="top: 120px;">
                     <div class="service-stack-content">
-                        <div style="color: var(--accent-blue); font-weight: 700; margin-bottom: 10px;">01</div>
+                        <div style="color: var(--accent-blue); font-weight: 700; margin-bottom: 10px;">01
+                        </div>
                         <h3>Web Development</h3>
-                        <p>Building responsive, high-performance websites and SaaS platforms with a focus on user
-                            experience.</p>
+                        <p>Building responsive,
+                            high-performance websites and SaaS platforms with a focus on user experience.
+                        </p>
                         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px;">
                             <li
                                 style="background: #EFF6FF; color: var(--accent-blue); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
@@ -769,19 +925,16 @@
                                 SaaS</li>
                         </ul>
                     </div>
-                    <div class="service-stack-visual">
-
-                        <img src="web-development.png" alt="Web Development" />
-                    </div>
+                    <div class="service-stack-visual"><img src="web-development.png" alt="Web Development" /></div>
                 </div>
-
                 <!-- Card 2 -->
                 <div class="service-stack-card" style="top: 150px;">
                     <div class="service-stack-content">
-                        <div style="color: var(--accent-purple); font-weight: 700; margin-bottom: 10px;">02</div>
+                        <div style="color: var(--accent-purple); font-weight: 700; margin-bottom: 10px;">
+                            02</div>
                         <h3>App Development</h3>
-                        <p>Custom web applications and internal tools designed to streamline your business operations.
-                        </p>
+                        <p>Custom web applications and internal tools designed to streamline your
+                            business operations. </p>
                         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px;">
                             <li
                                 style="background: #F3E8FF; color: var(--accent-purple); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
@@ -801,13 +954,14 @@
                         <img src="app-development.jpg" alt="App Development">
                     </div>
                 </div>
-
                 <!-- Card 3 -->
                 <div class="service-stack-card" style="top: 180px;">
                     <div class="service-stack-content">
-                        <div style="color: var(--accent-mint); font-weight: 700; margin-bottom: 10px;">03</div>
+                        <div style="color: var(--accent-mint); font-weight: 700; margin-bottom: 10px;">
+                            03</div>
                         <h3>AI & Automation</h3>
-                        <p>Integrate the power of LLMs and Machine Learning into your business processes.</p>
+                        <p>Integrate the power of LLMs and Machine Learning into your business
+                            processes.</p>
                         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px;">
                             <li
                                 style="background: #ECFDF5; color: var(--accent-mint); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
@@ -827,14 +981,14 @@
                         <img src="Ai_automation.png" alt="AI Automation">
                     </div>
                 </div>
-
                 <!-- Card 4 -->
                 <div class="service-stack-card" style="top: 210px;">
                     <div class="service-stack-content">
-                        <div style="color: var(--text-secondary); font-weight: 700; margin-bottom: 10px;">04</div>
+                        <div style="color: var(--text-secondary); font-weight: 700; margin-bottom: 10px;">
+                            04</div>
                         <h3>Security & Infrastructure</h3>
-                        <p>Robust infrastructure and security measures to protect your data and ensure high
-                            availability.</p>
+                        <p>Robust infrastructure and security measures to protect your data and
+                            ensure high availability.</p>
                         <ul style="list-style: none; display: flex; flex-wrap: wrap; gap: 10px;">
                             <li
                                 style="background: #F1F5F9; color: var(--text-secondary); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
@@ -857,17 +1011,15 @@
             </div>
         </div>
     </section>
-
     <!-- Process Section -->
     <section id="process" class="section-padding"
         style="background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);">
         <div class="container">
             <div style="text-align: center; margin-bottom: 60px;">
                 <h2 class="fade-in" style="color: var(--accent-blue);">Our Process</h2>
-                <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary);">From idea to launch in 5
-                    simple steps</p>
+                <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary);">From idea to
+                    launch in 5 simple steps</p>
             </div>
-
             <div class="timeline fade-in">
                 <div class="timeline-steps">
                     <div class="step">
@@ -909,26 +1061,25 @@
             </div>
         </div>
     </section>
-
     <!-- Pricing Section -->
     <section id="pricing" class="section-padding"
         style="background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);">
         <div class="container">
             <div style="text-align: center; margin-bottom: 60px;">
-                <h2 class="fade-in" style="color: var(--accent-blue); text-align: center;">Simple Pricing</h2>
+                <h2 class="fade-in" style="color: var(--accent-blue); text-align: center;">Simple
+                    Pricing</h2>
                 <p class="fade-in" style="font-size: 1.2rem; color: var(--text-secondary); text-align: center;">
                     Transparent packages for every budget</p>
             </div>
-
             <div class="pricing-grid">
                 <div class="pricing-card fade-in">
                     <h3>Micro</h3>
                     <div style="font-size: 2.5rem; font-weight: 800; margin: 20px 0;">₹1K - ₹10L</div>
-                    <p style="color: var(--text-secondary); margin-bottom: 30px;">Perfect for simple websites and
-                        landing pages.</p>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center;">Let's Talk</a>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">Perfect for simple
+                        websites and landing pages.</p><a href="#contact" class="btn btn-secondary"
+                        style="width: 100%; text-align: center;">Let's
+                        Talk</a>
                 </div>
-
                 <div class="pricing-card popular fade-in" style="transition-delay: 0.1s;">
                     <div
                         style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: var(--accent-purple); color: white; padding: 8px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 700;">
@@ -936,30 +1087,29 @@
                     <h3>Growth</h3>
                     <div class="gradient-text" style="font-size: 2.5rem; font-weight: 800; margin: 20px 0;">₹10L - ₹50L
                     </div>
-                    <p style="color: var(--text-secondary); margin-bottom: 30px;">For custom SaaS and complex web
-                        applications.</p>
-                    <a href="#contact" class="btn btn-primary" style="width: 100%; text-align: center;">Start Now</a>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">For custom SaaS and
+                        complex web applications.</p><a href="#contact" class="btn btn-primary"
+                        style="width: 100%; text-align: center;">Start Now</a>
                 </div>
-
                 <div class="pricing-card fade-in" style="transition-delay: 0.2s;">
                     <h3>Enterprise</h3>
                     <div style="font-size: 2.5rem; font-weight: 800; margin: 20px 0;">Custom</div>
-                    <p style="color: var(--text-secondary); margin-bottom: 30px;">Large-scale dedicated full-stack
-                        projects.</p>
-                    <a href="#contact" class="btn btn-secondary" style="width: 100%; text-align: center;">Contact
-                        Sales</a>
+                    <p style="color: var(--text-secondary); margin-bottom: 30px;">Large-scale dedicated
+                        full-stack projects.</p><a href="#contact" class="btn btn-secondary"
+                        style="width: 100%; text-align: center;">Contact Sales</a>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Contact Section -->
     <section id="contact" class="contact-section section-padding">
         <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+            <div class="contact-container">
                 <div class="fade-in">
-                    <h2 style="font-size: 3rem;">Let's Build Something <span class="gradient-text">Amazing</span></h2>
-                    <p style="font-size: 1.3rem; color: var(--text-secondary); margin: 30px 0;">Tell us your idea. We'll
+                    <h2 style="font-size: 3rem;">Let's Build Something <span class="gradient-text">Amazing</span>
+                    </h2>
+                    <p style="font-size: 1.3rem; color: var(--text-secondary); margin: 30px 0;">Tell
+                        us your idea. We'll
                         build it.</p>
                     <div style="margin-bottom: 25px;">
                         <h4 style="color: var(--accent-blue); margin-bottom: 8px;">Email Us</h4>
@@ -970,68 +1120,60 @@
                         <p style="font-size: 1.1rem;">+91 969323252</p>
                     </div>
                 </div>
-
                 <div class="contact-form fade-in" style="transition-delay: 0.2s;">
-                    <form id="contactForm">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
-                        <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-                        <textarea name="message" class="form-control" rows="4" placeholder="Project Brief"
-                            required></textarea>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Let's Talk</button>
+                    <form id="contactForm"><input type="text" name="name" class="form-control" placeholder="Your Name"
+                            required><input type="email" name="email" class="form-control" placeholder="Your Email"
+                            required><textarea name="message" class="form-control" rows="4" placeholder="Project Brief"
+                            required></textarea><button type="submit" class="btn btn-primary" style="width: 100%;">Let's
+                            Talk</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
-
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 50px; margin-bottom: 60px;">
+            <div class="footer-grid">
                 <div>
-                    <div style="margin-bottom: 20px;">
-                        <img src="logo-png-clofy-removebg-preview.png" alt="Clofy Technologies" style="height: 50px;">
-                    </div>
-                    <p style="color: rgba(255,255,255,0.7);">Building Digital Products from Concept to Scale.</p>
-                    <div style="display: flex; gap: 15px; margin-top: 25px;">
-                        <a href="#" class="social-icon">f</a>
-                        <a href="#" class="social-icon">in</a>
-                        <a href="#" class="social-icon">t</a>
-                    </div>
+                    <div style="margin-bottom: 20px;"><img src="logo-png-clofy-removebg-preview.png"
+                            alt="Clofy Technologies" style="height: 50px;"></div>
+                    <p style="color: rgba(255,255,255,0.7);">Building Digital Products from
+                        Concept to Scale.</p>
+                    <div style="display: flex; gap: 15px; margin-top: 25px;"><a
+                            href="https://www.linkedin.com/company/clofycloud/" class="social-icon">in</a><a href="#"
+                            class="social-icon">I</a></div>
                 </div>
                 <div>
                     <h4 style="margin-bottom: 20px;">Services</h4>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <a href="#" style="color: rgba(255,255,255,0.7);">Web Development</a>
-                        <a href="#" style="color: rgba(255,255,255,0.7);">Mobile Apps</a>
-                        <a href="#" style="color: rgba(255,255,255,0.7);">SaaS Products</a>
-                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;"><a href="#"
+                            style="color: rgba(255,255,255,0.7);">Web Development</a><a href="#"
+                            style="color: rgba(255,255,255,0.7);">Mobile Apps</a><a href="#"
+                            style="color: rgba(255,255,255,0.7);">SaaS Products</a></div>
                 </div>
                 <div>
                     <h4 style="margin-bottom: 20px;">Company</h4>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <a href="#" style="color: rgba(255,255,255,0.7);">About Us</a>
-                        <a href="#" style="color: rgba(255,255,255,0.7);">Careers</a>
-                        <a href="#" style="color: rgba(255,255,255,0.7);">Contact</a>
-                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;"><a href="#"
+                            style="color: rgba(255,255,255,0.7);">About Us</a><a href="#"
+                            style="color: rgba(255,255,255,0.7);">Careers</a><a href="#"
+                            style="color: rgba(255,255,255,0.7);">Contact</a></div>
                 </div>
                 <div>
                     <h4 style="margin-bottom: 20px;">Newsletter</h4>
-                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Subscribe for tech updates</p>
-                    <input type="email" placeholder="Your Email" class="form-control"
-                        style="margin-bottom: 10px; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
-                    <button class="btn btn-primary" style="width: 100%;">→</button>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Subscribe for
+                        tech updates</p><input type="email" placeholder="Your Email" class="form-control"
+                        style="margin-bottom: 10px; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);"><button
+                        class="btn btn-primary" style="width: 100%;">→</button>
                 </div>
             </div>
             <div
                 style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5);">
-                &copy; 2025 Clofy Technologies. All rights reserved.
-            </div>
+                &copy;
+                2025 Clofy Technologies. All rights reserved. </div>
         </div>
     </footer>
+    <script> // ========== CONTACT FORM SUBMISSION ==========
 
-    <script>
-        // ========== CONTACT FORM SUBMISSION ==========
         document.getElementById('contactForm').addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -1045,23 +1187,32 @@
 
             try {
                 const response = await fetch('http://localhost:3000/send-email', {
+
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
+                    }
+
+                    ,
                     body: JSON.stringify(data)
                 });
 
                 if (response.ok) {
                     alert('Message sent successfully!');
                     this.reset();
-                } else {
+                }
+
+                else {
                     alert('Failed to send message. Please try again.');
                 }
-            } catch (error) {
+            }
+
+            catch (error) {
                 console.error('Error:', error);
                 alert('An error occurred. Please try again later.');
-            } finally {
+            }
+
+            finally {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
             }
@@ -1069,73 +1220,14 @@
 
         // ========== SCROLL PROGRESS ==========
         const scrollProgress = document.querySelector('.scroll-progress');
+
         window.addEventListener('scroll', () => {
             const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
             const progress = (window.scrollY / windowHeight) * 100;
             scrollProgress.style.width = progress + '%';
         });
 
-        // ========== PARTICLES CANVAS ==========
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.8;
-                this.vy = (Math.random() - 0.5) * 0.8;
-                this.size = Math.random() * 3 + 1;
-                // Updated particle colors to match new palette
-                this.color = Math.random() > 0.5 ? 'rgba(59, 92, 157, 0.15)' : 'rgba(125, 66, 149, 0.15)';
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 80; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.update();
-                p.draw();
-                // Connect nearby particles
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.strokeStyle = `rgba(148, 163, 184, ${0.15 - dist / 800})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                });
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
+        // ========== SPOTLIGHT EFFECT ==========
 
         // ========== SPOTLIGHT EFFECT ==========
         document.querySelectorAll('.service-card').forEach(card => {
@@ -1143,8 +1235,18 @@
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+
+                card.style.setProperty('--mouse-x', `$ {
+                                x
+                            }
+
+                            px`);
+
+                card.style.setProperty('--mouse-y', `$ {
+                                y
+                            }
+
+                            px`);
             });
         });
 
@@ -1152,7 +1254,9 @@
         const observerOptions = {
             threshold: 0.15,
             rootMargin: '0px 0px -100px 0px'
-        };
+        }
+
+            ;
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1172,7 +1276,9 @@
                     }
                 }
             });
-        }, observerOptions);
+        }
+
+            , observerOptions);
 
         document.querySelectorAll('.fade-in, .timeline').forEach(el => observer.observe(el));
 
@@ -1194,6 +1300,7 @@
                     requestAnimationFrame(update);
                 }
             }
+
             requestAnimationFrame(update);
         }
 
@@ -1203,11 +1310,15 @@
 
         window.addEventListener('scroll', () => {
             const currentScroll = window.scrollY;
+
             if (currentScroll > lastScroll && currentScroll > 100) {
                 header.classList.add('hide');
-            } else {
+            }
+
+            else {
                 header.classList.remove('hide');
             }
+
             lastScroll = currentScroll;
         });
 
@@ -1218,11 +1329,37 @@
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
 
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.05)`;
+                btn.style.transform = `translate($ {
+                                x * 0.3
+                            }
+
+                            px, $ {
+                                y * 0.3
+                            }
+
+                            px) scale(1.05)`;
             });
 
             btn.addEventListener('mouseleave', () => {
                 btn.style.transform = 'translate(0, 0) scale(1)';
+            });
+        });
+
+        // ========== MOBILE MENU ==========
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const navLinksItems = document.querySelectorAll('.nav-links a');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileBtn.classList.remove('active');
+                navLinks.classList.remove('active');
             });
         });
     </script>
