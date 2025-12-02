@@ -14,10 +14,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'mowsikan02@gmail.com',
-        pass: 'vvsm klew duxu hpld'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 });
 
