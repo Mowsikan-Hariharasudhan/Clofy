@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user: 'mowsikan02@gmail.com',
+        pass: 'vvsm klew duxu hpld'
     }
 });
 
@@ -36,7 +36,7 @@ app.post('/send-email', (req, res) => {
 
     const mailOptions = {
         from: `"${name}" <${email}>`, // Sender address (shows as from the user)
-        to: process.env.EMAIL_USER, // List of receivers (sending to yourself)
+        to: 'mowsikan02@gmail.com', // List of receivers (sending to yourself)
         subject: `New Contact Form Submission from ${name}`,
         text: `You have received a new message from your website contact form.\n\nName: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
         html: `
